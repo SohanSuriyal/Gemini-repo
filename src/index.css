@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Explicit global heading colors for clear visibility */
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827;
+  }
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
+[data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
+  color: #ffffff;
+}
+
+/* Hide low-use note actions from the main formatting toolbar. */
+#format-checklist-btn,
+#format-image-btn,
+#format-paste-image-btn {
+  display: none !important;
+}
+
+/* Remove the redundant active-note summary from the Subjects & Topics sidebar. */
+#subject-topic-sidebar > div:last-child {
+  display: none !important;
+}
+
+/* Sleek custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Rich text note editor typography and list indexing */
+#note-editor-content,
+.onenote-text-editor {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+#note-editor-content p,
+.onenote-text-editor p {
+  margin-bottom: 0.5rem;
+  min-height: 1.5rem;
+}
+
+#note-editor-content h1,
+.onenote-text-editor h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+#note-editor-content h2,
+.onenote-text-editor h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 0.85rem;
+  margin-bottom: 0.4rem;
+  color: #111827;
+}
+
+#note-editor-content h3,
+.onenote-text-editor h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  margin-bottom: 0.35rem;
+  color: #111827;
+}
+
+.dark #note-editor-content h1,
+.dark #note-editor-content h2,
+.dark #note-editor-content h3,
+[data-theme="dark"] #note-editor-content h1,
+[data-theme="dark"] #note-editor-content h2,
+[data-theme="dark"] #note-editor-content h3,
+.dark .onenote-text-editor h1,
+.dark .onenote-text-editor h2,
+.dark .onenote-text-editor h3,
+[data-theme="dark"] .onenote-text-editor h1,
+[data-theme="dark"] .onenote-text-editor h2,
+[data-theme="dark"] .onenote-text-editor h3 {
+  color: #f4f4f5;
+}
+
+#note-editor-content blockquote,
+.onenote-text-editor blockquote {
+  border-left: 3px solid #7F56D9;
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+#note-editor-content pre,
+.onenote-text-editor pre {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+}
+
+[data-theme="dark"] #note-editor-content pre,
+[data-theme="dark"] .onenote-text-editor pre {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Bullet list (UL) indexing styles */
+#note-editor-content ul,
+.onenote-text-editor ul {
+  list-style-position: outside;
+  padding-left: 1.85rem;
+  margin: 0.5rem 0;
+}
+
+#note-editor-content ul:not([style*="list-style-type"]),
+.onenote-text-editor ul:not([style*="list-style-type"]) {
+  list-style-type: disc;
+}
+
+#note-editor-content ul li,
+.onenote-text-editor ul li {
+  margin-bottom: 0.3rem;
+  padding-left: 0.25rem;
+}
+
+/* Numbered list (OL) indexing styles */
+#note-editor-content ol,
+.onenote-text-editor ol {
+  list-style-position: outside;
+  padding-left: 1.85rem;
+  margin: 0.5rem 0;
+}
+
+#note-editor-content ol:not([style*="list-style-type"]),
+.onenote-text-editor ol:not([style*="list-style-type"]) {
+  list-style-type: decimal;
+}
+
+#note-editor-content ol li,
+.onenote-text-editor ol li {
+  margin-bottom: 0.3rem;
+  padding-left: 0.25rem;
+}
+
+#note-editor-content ol[style*="decimal-leading-zero"],
+.onenote-text-editor ol[style*="decimal-leading-zero"] {
+  padding-left: 2.2rem;
+}
+
+#note-editor-content ol[style*="upper-roman"],
+.onenote-text-editor ol[style*="upper-roman"] {
+  padding-left: 2.2rem;
+}
+
+/* Microsoft OneNote Paper Styles */
+.paper-ruled {
+  background-image: linear-gradient(to bottom, transparent 27px, rgba(127, 86, 217, 0.12) 28px);
+  background-size: 100% 28px;
+}
+.dark .paper-ruled,
+[data-theme="dark"] .paper-ruled {
+  background-image: linear-gradient(to bottom, transparent 27px, rgba(255, 255, 255, 0.07) 28px);
+  background-size: 100% 28px;
+}
+
+.paper-grid {
+  background-image: 
+    linear-gradient(to right, rgba(127, 86, 217, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(127, 86, 217, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .paper-grid,
+[data-theme="dark"] .paper-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

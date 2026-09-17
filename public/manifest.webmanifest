@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "NoteStorage",
+  "short_name": "NoteStorage",
+  "description": "Clean, modern note-taking and drawing application with subjects, topics, rich text editing, PDF document annotation, and handwriting canvas.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#7F56D9",
+  "categories": ["productivity", "education"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="nsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9E77ED" />
+      <stop offset="100%" stop-color="#6941C6" />
+    </linearGradient>
+    <filter id="nsShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#101828" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- App Rounded Base -->
+  <rect width="512" height="512" rx="115" fill="url(#nsGrad)" />
+
+  <!-- Inner Notebook Page -->
+  <g filter="url(#nsShadow)">
+    <rect x="96" y="96" width="320" height="320" rx="32" fill="#FFFFFF" />
+    
+    <!-- Ruled lines -->
+    <line x1="140" y1="168" x2="372" y2="168" stroke="#E9D7FE" stroke-width="8" stroke-linecap="round" />
+    <line x1="140" y1="216" x2="372" y2="216" stroke="#E9D7FE" stroke-width="8" stroke-linecap="round" />
+    <line x1="140" y1="264" x2="300" y2="264" stroke="#E9D7FE" stroke-width="8" stroke-linecap="round" />
+    <line x1="140" y1="312" x2="340" y2="312" stroke="#E9D7FE" stroke-width="8" stroke-linecap="round" />
+    
+    <!-- Bookmark ribbon -->
+    <path d="M328 96 V190 L348 174 L368 190 V96 Z" fill="#7F56D9" />
+
+    <!-- Pen / Stylus Accent -->
+    <circle cx="340" cy="340" r="44" fill="#7F56D9" />
+    <path d="M330 354 L358 326 M342 320 L360 338" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+  </g>
+</svg>

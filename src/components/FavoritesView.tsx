@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, FileText, ArrowRight, Grid, List, ArrowUpDown } from 'lucide-react';
 import { NoteItem } from '../types';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface FavoritesViewProps {
   notes: NoteItem[];
@@ -43,6 +44,11 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
           <h1 className={`text-2xl sm:text-3xl font-bold tracking-tight mt-0.5 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Favorites
           </h1>
+        </div>
+
+        {/* Static Study Timer */}
+        <div className="flex items-center justify-center">
+          <StaticHeaderTimer darkMode={darkMode} />
         </div>
 
         {favNotes.length > 0 && (

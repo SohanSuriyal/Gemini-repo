@@ -12,6 +12,8 @@ import {
   ChevronsRight,
   X,
   Upload,
+  Timer,
+  Target,
 } from 'lucide-react';
 import { NavPage } from '../types';
 import { PWAInstallButton } from './PWAInstallButton';
@@ -59,6 +61,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard' as NavPage, label: 'Dashboard', icon: Home },
     { id: 'subjects' as NavPage, label: 'Subjects', icon: LayoutGrid },
     { id: 'notes' as NavPage, label: 'Notes', icon: SquarePen },
+    { id: 'goals' as NavPage, label: 'Goals', icon: Target },
+    { id: 'timer' as NavPage, label: 'Timer', icon: Timer },
     { id: 'recent' as NavPage, label: 'Recent', icon: Clock },
     { id: 'favorites' as NavPage, label: 'Favorites', icon: Star },
     { id: 'settings' as NavPage, label: 'Settings', icon: Settings },
@@ -81,7 +85,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
         dataUrl: transparentPng,
         fileName: file.name,
       };
-      localStorage.setItem('ns_branding', JSON.stringify(newBranding));
+      try {
+        localStorage.setItem('ns_branding', JSON.stringify(newBranding));
+      } catch (quotaErr) {
+        console.warn('Storage quota exceeded, keeping in-memory:', quotaErr);
+      }
       setBranding(newBranding);
       window.dispatchEvent(new Event('ns-branding-updated'));
     } catch (e) {

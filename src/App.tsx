@@ -16,6 +16,11 @@ import { SettingsView } from './components/SettingsView';
 import { ExportModal } from './components/ExportModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { TopicCanvas } from './components/TopicCanvas';
+import { StudyTimer } from './components/StudyTimer';
+import { StudyTimerProvider } from './context/StudyTimerContext';
+import { GoalsProvider } from './context/GoalsContext';
+import { GoalsView } from './components/GoalsView';
+import { StaticHeaderTimer } from './components/StaticHeaderTimer';
 import { renderPdfPages } from './utils/pdfLoader';
 import { saveNotesToStorage, loadNotesFromStorage, loadNoteFromStorage } from './utils/storage';
 import { loadBrandingSettings, DEFAULT_THUNDER_CHARACTER } from './components/BrandingSettings';
@@ -874,12 +879,14 @@ export default function App() {
   if (!allTopicsForSubject.includes('Week 6')) allTopicsForSubject.unshift('Week 6');
 
   return (
-    <div
-      data-compact={settings.compact ? 'true' : 'false'}
-      className={`flex h-screen w-screen overflow-hidden ${
-        darkMode ? 'bg-[#121214] text-zinc-100' : 'bg-[#FAFAFA] text-gray-900'
-      } ${!settings.animations ? '[&_*]:!transition-none [&_*]:!animation-none' : ''}`}
-    >
+    <GoalsProvider>
+      <StudyTimerProvider>
+        <div
+        data-compact={settings.compact ? 'true' : 'false'}
+        className={`flex h-screen w-screen overflow-hidden ${
+          darkMode ? 'bg-[#121214] text-zinc-100' : 'bg-[#FAFAFA] text-gray-900'
+        } ${!settings.animations ? '[&_*]:!transition-none [&_*]:!animation-none' : ''}`}
+      >
       {/* Left Sidebar */}
       <Sidebar
         currentPage={currentPage}
@@ -938,6 +945,11 @@ export default function App() {
                 />
               </div>
             </div>
+          </div>
+
+          {/* Static Study Timer in Mobile Header */}
+          <div className="flex items-center justify-center">
+            <StaticHeaderTimer darkMode={darkMode} />
           </div>
 
           <button
@@ -1136,12 +1148,24 @@ export default function App() {
               setSelectedSubjectForTopics(sub);
               setCurrentPage('subjects');
             }}
+            onViewAllGoals={() => setCurrentPage('goals')}
+            onCreateGoal={() => setCurrentPage('goals')}
+            onNavigateToTimer={() => setCurrentPage('timer')}
             onCreateNote={handleCreateNote}
             darkMode={darkMode}
             compact={settings.compact}
             defaultView={settings.defaultView}
             defaultSort={settings.defaultSort}
             customSubjects={customSubjects}
+          />
+        )}
+
+        {currentPage === 'goals' && (
+          <GoalsView
+            darkMode={darkMode}
+            compact={settings.compact}
+            subjects={allSubjects}
+            onNavigateToTimer={() => setCurrentPage('timer')}
           />
         )}
 
@@ -1166,6 +1190,18 @@ export default function App() {
             darkMode={darkMode}
             compact={settings.compact}
           />
+        )}
+
+        {currentPage === 'timer' && (
+          <div className={`flex-1 overflow-y-auto max-w-4xl mx-auto w-full ${settings.compact ? 'py-4 px-4' : 'py-8 px-6'}`}>
+            <StudyTimer
+              darkMode={darkMode}
+              compact={settings.compact}
+              isStandalonePage={true}
+              subjects={allSubjects}
+              onNavigateToGoals={() => setCurrentPage('goals')}
+            />
+          </div>
         )}
 
         {currentPage === 'recent' && (
@@ -1250,6 +1286,8 @@ export default function App() {
         onCancel={closeConfirmModal}
         darkMode={darkMode}
       />
-    </div>
+      </div>
+      </StudyTimerProvider>
+    </GoalsProvider>
   );
 }

@@ -15,9 +15,25 @@ export async function removeImageBackground(
 
     img.onload = () => {
       try {
+        const origW = img.naturalWidth || img.width;
+        const origH = img.naturalHeight || img.height;
+        
+        // Scale down to a clean mascot resolution (max 280x280)
+        // This keeps dataURL tiny (< 30KB) and avoids localStorage quota limits
+        const MAX_DIM = 280;
+        let width = origW;
+        let height = origH;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
         const canvas = document.createElement('canvas');
-        const width = img.naturalWidth || img.width;
-        const height = img.naturalHeight || img.height;
         canvas.width = width;
         canvas.height = height;
 
@@ -27,7 +43,9 @@ export async function removeImageBackground(
           return;
         }
 
-        ctx.drawImage(img, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
         const imgData = ctx.getImageData(0, 0, width, height);
         const data = imgData.data;
 
@@ -54,6 +72,8 @@ export async function removeImageBackground(
         bgG = Math.round(totalG / corners.length);
         bgB = Math.round(totalB / corners.length);
 
+        const isDarkBg = bgR < 50 && bgG < 50 && bgB < 50;
+
         const colorDist = (r: number, g: number, b: number) => {
           const dr = r - bgR;
           const dg = g - bgG;
@@ -62,13 +82,17 @@ export async function removeImageBackground(
         };
 
         const isBgColor = (idx: number) => {
-          // Check distance to corner background or near-white
           const r = data[idx];
           const g = data[idx + 1];
           const b = data[idx + 2];
-          const d1 = colorDist(r, g, b);
-          const dWhite = Math.sqrt((255 - r) ** 2 + (255 - g) ** 2 + (255 - b) ** 2);
-          return Math.min(d1, dWhite) <= tolerance;
+          const dCorner = colorDist(r, g, b);
+          if (isDarkBg) {
+            const dDark = Math.sqrt(r * r + g * g + b * b);
+            return Math.min(dCorner, dDark) <= Math.max(tolerance, 45);
+          } else {
+            const dWhite = Math.sqrt((255 - r) ** 2 + (255 - g) ** 2 + (255 - b) ** 2);
+            return Math.min(dCorner, dWhite) <= tolerance;
+          }
         };
 
         const totalPixels = width * height;

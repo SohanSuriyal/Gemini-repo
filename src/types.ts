@@ -1,4 +1,52 @@
-export type NavPage = 'dashboard' | 'subjects' | 'notes' | 'recent' | 'favorites' | 'settings';
+export type NavPage = 'dashboard' | 'subjects' | 'notes' | 'goals' | 'timer' | 'recent' | 'favorites' | 'settings';
+
+export type GoalType = 'study_time' | 'subject_topic' | 'task_note' | 'deadline';
+export type GoalCadence = 'none' | 'daily' | 'weekly';
+
+export interface SubGoalItem {
+  id: string;
+  title: string;
+  completed: boolean;
+  completedAt?: number;
+}
+
+export interface GoalSessionLog {
+  id: string;
+  timestamp: number;
+  durationMinutes: number;
+  subject?: string;
+  mode?: string;
+}
+
+export interface StudySession {
+  id: string;
+  subjectId: string;
+  goalId?: string;
+  sessionType: 'pomodoro' | 'countdown' | 'stopwatch';
+  startTime: number;
+  endTime: number;
+  duration: number; // in seconds
+  durationMinutes: number; // in minutes (e.g. 25)
+}
+
+export interface GoalItem {
+  id: string;
+  title: string;
+  description?: string;
+  type: GoalType;
+  subject?: string;
+  targetValue: number;
+  currentProgress: number;
+  unit: string;
+  deadline?: string; // YYYY-MM-DD
+  cadence?: GoalCadence;
+  completed: boolean;
+  completedAt?: number;
+  subGoals?: SubGoalItem[];
+  sessionLogs?: GoalSessionLog[];
+  createdAt: number;
+  updatedAt: number;
+}
 
 export type DrawingTool = 'pen' | 'highlighter' | 'eraser';
 export type EraserType = 'stroke-eraser' | 'eraser';

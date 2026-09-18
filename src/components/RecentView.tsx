@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Clock, FileText, Star, Grid, List, ArrowUpDown } from 'lucide-react';
 import { NoteItem } from '../types';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface RecentViewProps {
   notes: NoteItem[];
@@ -41,6 +42,11 @@ export const RecentView: React.FC<RecentViewProps> = ({
           <h1 className={`text-2xl sm:text-3xl font-bold tracking-tight mt-0.5 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Recent Notes
           </h1>
+        </div>
+
+        {/* Static Study Timer */}
+        <div className="flex items-center justify-center">
+          <StaticHeaderTimer darkMode={darkMode} />
         </div>
 
         {/* View and Sort Controls */}

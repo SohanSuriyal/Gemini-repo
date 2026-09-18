@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Plus, Search, BookOpen, Clock, FileText, ArrowRight, Grid, List } from 'lucide-react';
+import { Plus, Search, BookOpen, Clock, FileText, ArrowRight, Grid, List, Timer } from 'lucide-react';
 import { NoteItem } from '../types';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
+import { DashboardGoalsWidget } from './DashboardGoalsWidget';
 
 interface DashboardViewProps {
   notes: NoteItem[];
   onSelectNote: (noteId: string) => void;
   onCreateNote: (subject?: string, topic?: string) => void;
   onViewSubject?: (subject: string) => void;
+  onViewAllGoals?: () => void;
+  onCreateGoal?: () => void;
+  onNavigateToTimer?: () => void;
   darkMode?: boolean;
   defaultView?: 'grid' | 'list';
   defaultSort?: 'recent' | 'name' | 'name-desc' | 'oldest';
@@ -19,6 +24,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onSelectNote,
   onCreateNote,
   onViewSubject,
+  onViewAllGoals,
+  onCreateGoal,
+  onNavigateToTimer,
   darkMode = false,
   defaultView = 'grid',
   defaultSort = 'recent',
@@ -63,10 +71,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </h1>
         </div>
 
+        {/* Static Header Timer */}
+        <div className="flex items-center justify-center">
+          <StaticHeaderTimer darkMode={darkMode} />
+        </div>
+
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => onCreateNote()}
-            className="flex items-center gap-2 px-4 py-2 bg-[#7F56D9] text-white rounded-xl text-sm font-semibold hover:bg-[#6941C6] transition-colors shadow-xs"
+            className="flex items-center gap-2 px-4 py-2 bg-[#7F56D9] text-white rounded-xl text-sm font-semibold hover:bg-[#6941C6] transition-colors shadow-xs cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New note</span>
@@ -112,6 +125,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
         ))}
       </div>
+
+      {/* Goals & Study Targets Widget */}
+      {onViewAllGoals && (
+        <DashboardGoalsWidget
+          darkMode={darkMode}
+          compact={compact}
+          onViewAllGoals={onViewAllGoals}
+          onCreateGoal={onCreateGoal}
+          onNavigateToTimer={onNavigateToTimer}
+        />
+      )}
 
       {/* Subjects Section */}
       <div className="mb-7">

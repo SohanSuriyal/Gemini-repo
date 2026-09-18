@@ -22,6 +22,7 @@ import {
 import { NoteItem } from '../types';
 import { AddSubjectModal } from './AddSubjectModal';
 import { getSubjectTheme } from '../utils/subjectThemes';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface SubjectsViewProps {
   notes: NoteItem[];
@@ -428,6 +429,11 @@ export const SubjectsView: React.FC<SubjectsViewProps> = ({
                   )}
                 </div>
               </div>
+            </div>
+
+            {/* Static Study Timer */}
+            <div className="flex items-center justify-center my-1 md:my-0">
+              <StaticHeaderTimer darkMode={darkMode} />
             </div>
 
             {/* Quick Action Buttons */}
@@ -916,6 +922,11 @@ export const SubjectsView: React.FC<SubjectsViewProps> = ({
             {totalTopicsCount} active topic{totalTopicsCount !== 1 ? 's' : ''} •{' '}
             {totalNotesCount} note{totalNotesCount !== 1 ? 's' : ''}
           </p>
+        </div>
+
+        {/* Static Study Timer */}
+        <div className="flex items-center justify-center">
+          <StaticHeaderTimer darkMode={darkMode} />
         </div>
 
         <div className="flex items-center gap-2.5 flex-wrap">

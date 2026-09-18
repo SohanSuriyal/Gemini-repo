@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { NoteItem, CanvasNode, CanvasEdge, CanvasAnchorSide, TopicCanvasData } from '../types';
 import { NotePagePreview } from './NotePagePreview';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface TopicCanvasProps {
   subject: string;
@@ -875,8 +876,8 @@ export const TopicCanvas: React.FC<TopicCanvasProps> = ({
           </div>
         </div>
 
-        {/* Center Editable Title */}
-        <div className="flex items-center gap-2">
+        {/* Center Editable Title & Static Timer */}
+        <div className="flex items-center gap-3">
           <input
             type="text"
             value={canvasTitle}
@@ -885,6 +886,7 @@ export const TopicCanvas: React.FC<TopicCanvasProps> = ({
               darkMode ? 'text-zinc-100 hover:bg-white/5 focus:bg-white/10' : 'text-zinc-900 hover:bg-zinc-100 focus:bg-white'
             }`}
           />
+          <StaticHeaderTimer darkMode={darkMode} />
         </div>
 
         {/* Right Header Actions */}

@@ -23,6 +23,7 @@ import {
 import { AppSettings, NoteItem, PaperStyle } from '../types';
 import { PWAInstallButton } from './PWAInstallButton';
 import { BrandingSettings } from './BrandingSettings';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface SettingsViewProps {
   settings: AppSettings;
@@ -206,6 +207,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <h1 className={`text-2xl sm:text-3xl font-bold tracking-tight mt-0.5 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Settings
           </h1>
+        </div>
+
+        {/* Static Study Timer */}
+        <div className="flex items-center justify-center">
+          <StaticHeaderTimer darkMode={darkMode} />
         </div>
 
         {/* Live Notification Banner */}

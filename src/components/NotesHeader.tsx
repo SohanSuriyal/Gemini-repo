@@ -9,6 +9,7 @@ import {
   PanelLeft,
   LayoutGrid,
 } from 'lucide-react';
+import { StaticHeaderTimer } from './StaticHeaderTimer';
 
 interface NotesHeaderProps {
   title: string;
@@ -155,6 +156,11 @@ export const NotesHeader: React.FC<NotesHeaderProps> = ({
             </h1>
           )}
         </div>
+      </div>
+
+      {/* Center: Static Study Timer (Persistent across whole website) */}
+      <div className="flex items-center justify-center my-0.5 sm:my-0">
+        <StaticHeaderTimer darkMode={darkMode} />
       </div>
 
       {/* Right side: Saved badge, Rename, Export, Delete */}

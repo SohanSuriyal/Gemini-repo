@@ -1,0 +1,74 @@
+name: Deploy Thunder Notebook to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Configure GitHub Pages base path
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('vite.config.ts')
+          s = p.read_text()
+          if "base:" not in s:
+              s = s.replace("plugins: [react(), tailwindcss()],", "plugins: [react(), tailwindcss()],\n    base: '/Thunder-Notebook/',")
+              p.write_text(s)
+          m = Path('public/manifest.webmanifest')
+          if m.exists():
+              s = m.read_text()
+              s = s.replace('"id": "/"', '"id": "/Thunder-Notebook/"')
+              s = s.replace('"start_url": "/"', '"start_url": "/Thunder-Notebook/"')
+              s = s.replace('"scope": "/"', '"scope": "/Thunder-Notebook/"')
+              m.write_text(s)
+          PY
+
+      - name: Build
+        run: bun run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: './dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

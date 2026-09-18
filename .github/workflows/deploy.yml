@@ -56,8 +56,21 @@ jobs:
         with:
           path: './dist'
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Verify GitHub Pages
+        uses: actions/github-script@v8
+        with:
+          script: |
+            try {
+              await github.rest.repos.getPagesSite({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+            } catch (error) {
+              core.setFailed(
+                'GitHub Pages is not enabled/configured for this repository. ' +
+                'In Settings → Pages, choose Source: GitHub Actions, then rerun this workflow.'
+              );
+            }
 
   deploy:
     needs: build
